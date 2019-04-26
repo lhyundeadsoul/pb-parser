@@ -1,0 +1,10 @@
+*/.idea/*
+.idea/*
+*.iml
+*/target/*
+coverage-report/*
+/bin/
+/target/
+*.DS_Store
+*coverage.check.failed
+*/coverage-report

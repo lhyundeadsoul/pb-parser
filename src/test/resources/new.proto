@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package biz.test.new;
+import "child.proto";
+import "addressbook.proto";
+option java_package = "com.autonavi.snowman.test";
+option java_outer_classname = "NewProtos";
+
+extend Child {
+    optional Person girlFriend = 170;
+}

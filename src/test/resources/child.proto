@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+package biz.test;
+import "addressbook.proto";
+option java_package = "com.autonavi.snowman.test";
+option java_outer_classname = "ChildProtos";
+message Child {
+    required string school = 1;
+    optional string sex = 2;
+    optional AddressBook address_book = 3;
+//    optional AddressBook address_book3 = 4;
+
+    extensions 100 to 199;
+}
+
+message Boy {
+    optional int32 speed = 1;
+    extend Child {
+        optional int32 score_int = 130;
+        optional double score_double = 131;
+        optional bool score_bool = 132;
+        optional bytes score_byte = 133;
+        optional float score_float = 134;
+        optional int64 score_long = 135;
+        optional Person.PhoneType score_enum = 136;
+        optional string parent = 137;
+        optional Person friend = 138;
+    }
+
+}
+
+extend Child {
+    optional int32 age = 140;
+    optional string university = 150;
+    optional Person teacher = 160;
+    optional Person girlFriend = 180;
+}
