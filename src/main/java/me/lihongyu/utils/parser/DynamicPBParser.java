@@ -49,6 +49,7 @@ public class DynamicPBParser {
     public static ParserBuilder newBuilder() {
         return new ParserBuilder();
     }
+
     /**
      * parse all descriptors
      */
@@ -193,9 +194,13 @@ public class DynamicPBParser {
     private Object getFieldValue(DynamicMessage extractObj, FieldDescriptor fieldDescriptor) {
         //normal field
         if (!fieldDescriptor.isExtension()) {
-            return extractObj.getField(fieldDescriptor);
+            // java.lang.IllegalArgumentException: hasField() can only be called on non-repeated fields.
+            if (fieldDescriptor.isRepeated() || extractObj.hasField(fieldDescriptor)) {
+                return extractObj.getField(fieldDescriptor);
+            } else {
+                return fieldDescriptor.hasDefaultValue() ? fieldDescriptor.getDefaultValue() : null;
+            }
         }
-
         // extension field
         Object value = null;
         Field field = extractObj.getUnknownFields().getField(fieldDescriptor.getNumber());

@@ -73,6 +73,7 @@ public class TestDescTest {
 
         //测试连续字段
         assertThat(parser.parse(base64Str, "biz.test.Person$id")).isEqualTo("1234");
+        assertThat(parser.parse(base64Str, "biz.test.Person$email")).isEqualTo("testEmail");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth")).isEqualTo("CggKBG5pa2UQARC2YA==");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth.price")).isEqualTo("12342");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth.price.something")).isNull();
@@ -117,11 +118,13 @@ public class TestDescTest {
         assertThat(parser.parse(base64Str, "biz.test.AddressBook$non_exist.phones[2].type")).isNull();
 
         //测试import的情况
-        Child child = Child.newBuilder().setAddressBook(addressBook).setSchool("Tsinghua").setSex("male").build();
+        Child child = Child.newBuilder().setAddressBook(addressBook).setSchool("Tsinghua").build();
         base64Str = Base64.getEncoder().encodeToString(child.toByteArray());
         assertThat(parser.parse(base64Str, "biz.test.Child$school")).isEqualTo("Tsinghua");
+        assertThat(parser.parse(base64Str, "biz.test.Child$sex")).isNull();
         assertThat(parser.parse(base64Str, "biz.test.Child$address_book.people[0].name")).isEqualTo("John Doe");
         assertThat(parser.parse(base64Str, "biz.test.Child$address_book.people[*].phones[0].type")).isEqualTo("HOME");
+
     }
 
     @Test(dependsOnMethods = "testSetup")
