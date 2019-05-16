@@ -57,7 +57,9 @@ public class TestDescTest {
                 .withMessageEndingWith(" can not be found in any description file! Please check out if it exist.");
 
         //测试不存在字段
-        assertThat(parser.parse(base64Str, "biz.test.Person.PhoneNumber$non_exist")).isNull();
+        String finalBase64Str = base64Str;
+        assertThatIllegalArgumentException().isThrownBy(()-> parser.parse(finalBase64Str, "biz.test.Person.PhoneNumber$non_exist"))
+            .withMessageContaining("is not found in");
 
         //测试解析失败，返回null
         assertThat(parser.parse("TEST", "biz.test.Person.Cloth$price")).isNull();
@@ -76,7 +78,6 @@ public class TestDescTest {
         assertThat(parser.parse(base64Str, "biz.test.Person$email")).isEqualTo("testEmail");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth")).isEqualTo("CggKBG5pa2UQARC2YA==");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth.price")).isEqualTo("12342");
-        assertThat(parser.parse(base64Str, "biz.test.Person$cloth.price.something")).isNull();
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth.brand.brand_name")).isEqualTo("nike");
         assertThat(parser.parse(base64Str, "biz.test.Person$cloth.brand.brand_type")).isEqualTo("SPORT");
 
@@ -115,7 +116,10 @@ public class TestDescTest {
         assertThat(parser.parse(base64Str, "biz.test.AddressBook$people[1].phones[*].type")).isEqualTo(
                 "[\"MOBILE\",\"HOME\",\"MOBILE\"]");
         assertThat(parser.parse(base64Str, "biz.test.AddressBook$people[1].phones[2].type")).isEqualTo("MOBILE");
-        assertThat(parser.parse(base64Str, "biz.test.AddressBook$non_exist.phones[2].type")).isNull();
+        String finalBase64Str1 = base64Str;
+        assertThatIllegalArgumentException().isThrownBy(
+            ()->parser.parse(finalBase64Str1, "biz.test.AddressBook$non_exist.phones[2].type"))
+        .withStackTraceContaining("is not found in");
 
         //测试import的情况
         Child child = Child.newBuilder().setAddressBook(addressBook).setSchool("Tsinghua").build();

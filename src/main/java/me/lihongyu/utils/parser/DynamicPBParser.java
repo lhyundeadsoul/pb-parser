@@ -155,7 +155,7 @@ public class DynamicPBParser {
             fieldDescriptor = extensionFieldCache.get(fieldName);
         }
         if (fieldDescriptor == null){
-            throw new IllegalArgumentException(fieldName + "is not found in "+ descriptor.getFullName());
+            throw new IllegalArgumentException(fieldName + " is not found in "+ descriptor.getFullName());
         }
         return fieldDescriptor;
     }
