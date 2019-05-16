@@ -125,9 +125,6 @@ public class DynamicPBParser {
             String fieldName = syntax.getFieldName(fieldPath);
             String fieldIndex = syntax.getFieldIndex(fieldPath);
             FieldDescriptor fieldDescriptor = getFieldByName(descriptor, fieldName);
-            if (fieldDescriptor == null) {
-                return null;
-            }
 
             //extract value with field name and index
             extractObj = extractWithField(extractObj, fieldDescriptor);
@@ -156,6 +153,9 @@ public class DynamicPBParser {
         FieldDescriptor fieldDescriptor = descriptor.findFieldByName(fieldName);
         if (fieldDescriptor == null) {
             fieldDescriptor = extensionFieldCache.get(fieldName);
+        }
+        if (fieldDescriptor == null){
+            throw new IllegalArgumentException(fieldName + "is not found in "+ descriptor.getFullName());
         }
         return fieldDescriptor;
     }
