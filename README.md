@@ -81,7 +81,7 @@
   
 ## Q&A  
 1. 发生异常`java.lang.IllegalArgumentException: XXX.XXX can not be found in any description file! Please check out if it exist.`，请检查desc文件中是否含有XXX.XXX的message定义，或仔细核对是否`package_name`和`message_name`有笔误  
-2. 除问题1描述的场景外，其余错误统一返回null。如字段找不到、对象解析失败等  
+2. 发生异常`IllegalArgumentException msg: xxx(fieldName) is not found in xxx(message name)`时，请检查字段名是否有笔误
   
 ## Todo List  
   
